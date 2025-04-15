@@ -1,1 +1,14 @@
-.
+{
+  "__type": "mmx.contract.Executable",
+  "name": "MyFirstNFT",
+  "symbol": "MFN",
+  "decimals": 0,
+  "binary": "mmx1...replace_with_binary_address...",
+  "init_args": [
+    "mmx1...creator_address...",
+    "https://ipfs.io/ipfs/.../metadata.json",
+    "https://ipfs.io/ipfs/.../image.png",
+    "mmx1...royalty_address...",
+    "500"
+  ]
+}
