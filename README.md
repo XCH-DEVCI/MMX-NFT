@@ -23,7 +23,12 @@ Run:
 
 ```bash
 mmx_compile -f contract/my_nft_contract.js -o compiled/my_nft_contract.dat
+```
 
+```bash
 mmx wallet deploy compiled/my_nft_contract.dat
+```
 
+```bash
 mmx wallet exec mint_to "mmx1...recipient_address..." -x mmx1...nft_contract...
+```
