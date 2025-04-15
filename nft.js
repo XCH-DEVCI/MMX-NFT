@@ -1,84 +1,51 @@
 var creator;
-var token_id = 0;
+var metadata_uri;
+var image_uri;
+var royalty_address;
+var royalty_bps; // e.g., 500 for 5%
+var mint_height;
 
-// token_id => { owner, metadata_url, image_url, royalty_address, royalty_rate }
-var tokens = {};
-
-// Contract constructor: sets the creator address
-function init(creator_str) {
-  creator = bech32(creator_str);
+function init(creator_, metadata_uri_, image_uri_, royalty_address_, royalty_bps_) {
+    assert(read("decimals") == 0, "Decimals must be zero for NFTs");
+    creator = bech32(creator_);
+    metadata_uri = metadata_uri_;
+    image_uri = image_uri_;
+    royalty_address = bech32(royalty_address_);
+    royalty_bps = uint(royalty_bps_);
+    assert(royalty_bps <= 10000, "Royalty percentage cannot exceed 100%");
 }
 
-// Mint a new NFT with full metadata, image, and royalty settings
-function mint(to_str, metadata_url, image_url, royalty_str, rate) public {
-  assert(this.user == creator, "not authorized");
-
-  var to = bech32(to_str);
-  var royalty_addr = bech32(royalty_str);
-  var royalty_rate = uint(rate);
-
-  var id = token_id;
-  token_id += 1;
-
-  set(tokens, id, {
-    owner: to,
-    metadata_url: metadata_url,
-    image_url: image_url,
-    royalty_address: royalty_addr,
-    royalty_rate: royalty_rate
-  });
-
-  event("mint", {
-    id: id,
-    to: string_bech32(to),
-    metadata_url: metadata_url,
-    image_url: image_url,
-    royalty: {
-      to: string_bech32(royalty_addr),
-      rate: royalty_rate
+function mint_to(address, memo) public {
+    assert(this.user == creator, "Only creator can mint");
+    assert(!is_minted(), "NFT already minted");
+    mint_height = this.height;
+    if(memo == null) {
+        memo = "mmx_nft_mint";
+    } else if(memo == false) {
+        memo = null;
     }
-  });
+    mint(bech32(address), 1, memo);
 }
 
-// Get token details (including image and metadata URLs)
-function get_token(id) const public {
-  var token = tokens[id];
-  assert(token != null, "token not found");
-  return token;
+function burn() public {
+    assert(this.user == owner(), "Only owner can burn");
+    burn_token(1);
+    // Additional cleanup if necessary
 }
 
-// Burn an NFT (only allowed by owner)
-function burn(id) public {
-  var token = tokens[id];
-  assert(token != null, "token not found");
-  assert(token.owner == this.user, "not owner");
-  erase(tokens, id);
-  event("burn", {id: id});
+function royalty_info(sale_price) const public {
+    var royalty_amount = (sale_price * royalty_bps) / 10000;
+    return [royalty_address, royalty_amount];
 }
 
-// Buy an NFT: pays seller and royalty address automatically
-function buy(id) public payable {
-  var token = tokens[id];
-  assert(token != null, "token not found");
-  assert(token.owner != this.user, "cannot buy your own token");
+function get_metadata_uri() const public {
+    return metadata_uri;
+}
 
-  assert(this.deposit.currency == bech32(), "only MMX accepted");
-  var total = this.deposit.amount;
+function get_image_uri() const public {
+    return image_uri;
+}
 
-  var royalty_amount = (total * token.royalty_rate) / 100;
-  var seller_amount = total - royalty_amount;
-
-  send(token.owner, seller_amount);
-  send(token.royalty_address, royalty_amount);
-
-  var prev_owner = token.owner;
-  token.owner = this.user;
-
-  event("buy", {
-    id: id,
-    from: string_bech32(prev_owner),
-    to: string_bech32(this.user),
-    paid: total,
-    royalty: royalty_amount
-  });
+function is_minted() const public {
+    return mint_height != null;
 }
