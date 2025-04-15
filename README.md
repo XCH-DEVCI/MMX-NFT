@@ -26,8 +26,30 @@ mmx_compile -f contract/my_nft_contract.js -o compiled/my_nft_contract.dat
 ```bash
 mmx wallet deploy compiled/my_nft_contract.dat
 ```
+This will return a binary address (e.g. mmx1...code...).
 
-### 
+### 4. Create Deployment JSON for the NFT
+Edit deploy/deploy_nft.json:
+```json
+{
+  "__type": "mmx.contract.Executable",
+  "name": "MyFirstNFT",
+  "symbol": "MFN",
+  "decimals": 0,
+  "binary": "mmx1...replace_with_binary_address...",
+  "init_args": [
+    "mmx1...creator_address...",
+    "https://ipfs.io/ipfs/.../metadata.json",
+    "https://ipfs.io/ipfs/.../image.png",
+    "mmx1...royalty_address...",
+    "500"
+  ]
+}
+```
+Replace binary with the address returned from step 3
+
+### 5. Deploy the Executable NFT Instance
 ```bash
 mmx wallet exec mint_to "mmx1...recipient_address..." -x mmx1...nft_contract...
 ```
+This creates a live NFT contract with its own address (e.g. mmx1...nft...).
