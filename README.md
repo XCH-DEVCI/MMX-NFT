@@ -49,6 +49,10 @@ Edit deploy/deploy_nft.json:
 
 ```
 Replace binary with the address returned from step 3
+Then:
+```bash
+mmx wallet deploy deploy/deploy_nft.json
+```
 
 ### 5. Deploy the Executable NFT Instance
 ```bash
