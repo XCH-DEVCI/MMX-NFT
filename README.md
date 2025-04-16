@@ -19,12 +19,12 @@ This contract includes:
 
 ### 2. Compile the Contract
 ```bash
-& "C:\Program Files\MMX Node\mmx_compile" -f contract/nft.js -o compiled/nft_contract.dat
+mmx_compile -f contract/nft.js -o compiled/nft_contract.dat
 ```
 
 ### 3. Deploy the Contract Binary
 ```bash
-& "C:\Program Files\MMX Node\mmx" wallet deploy compiled/nft_contract.dat
+mmx wallet deploy compiled/nft_contract.dat
 ```
 This will return a binary address (e.g. mmx1...code...).
 
@@ -33,18 +33,20 @@ Edit deploy/deploy_nft.json:
 ```json
 {
   "__type": "mmx.contract.Executable",
-  "name": "MyFirstNFT",
-  "symbol": "MFN",
+  "name": "MyNFT",
+  "symbol": "MNFT",
   "decimals": 0,
-  "binary": "mmx1...replace_with_binary_address...",
+  "binary": "mmx1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "init_method": "init",
   "init_args": [
-    "mmx1...creator_address...",
-    "https://ipfs.io/ipfs/.../metadata.json",
-    "https://ipfs.io/ipfs/.../image.png",
-    "mmx1...royalty_address...",
-    "500"
+    "mmx1yourcreatoraddresshere",
+    "https://ipfs.io/ipfs/QmExampleMeta123/meta.json",
+    "https://ipfs.io/ipfs/QmExampleImage456/image.png",
+    "mmx1yourroyaltyaddresshere",                      
+    "500"                                              
   ]
 }
+
 ```
 Replace binary with the address returned from step 3
 
