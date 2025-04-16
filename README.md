@@ -53,9 +53,10 @@ Then:
 ```bash
 mmx wallet deploy deploy/deploy_nft.json
 ```
+This will return "Deployed mmx.contract.Executable as [mmx_address_for exec]"
 
 ### 5. Deploy the Executable NFT Instance
 ```bash
-mmx wallet exec mint_to "mmx1...recipient_address..." -x mmx1...nft_contract...
+mmx wallet exec mint_to "mmx1...recipient_address..." -x mmx_address_for exec
 ```
 This creates a live NFT contract with its own address (e.g. mmx1...nft...).
