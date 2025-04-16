@@ -8,7 +8,7 @@ This project provides a complete setup for creating and minting NFTs on the MMX 
 
 ### 1. Write the NFT Contract
 
-Edit the file: `contract/my_nft_contract.js`
+Edit the file: `contract/nft.js`
 
 This contract includes:
 
@@ -19,12 +19,12 @@ This contract includes:
 
 ### 2. Compile the Contract
 ```bash
-mmx_compile -f contract/my_nft_contract.js -o compiled/my_nft_contract.dat
+& "C:\Program Files\MMX Node\mmx_compile" -f contract/nft.js -o compiled/nft_contract.dat
 ```
 
 ### 3. Deploy the Contract Binary
 ```bash
-mmx wallet deploy compiled/my_nft_contract.dat
+& "C:\Program Files\MMX Node\mmx" wallet deploy compiled/nft_contract.dat
 ```
 This will return a binary address (e.g. mmx1...code...).
 
