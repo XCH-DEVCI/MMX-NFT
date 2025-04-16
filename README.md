@@ -6,6 +6,10 @@ This project provides a complete setup for creating and minting NFTs on the MMX 
 
 ## Step-by-Step Guide
 
+### Before we start
+
+Please ensure you are using MMX CMD..... And remember to run node through run_node
+
 ### 1. Write the NFT Contract
 
 Edit the file: `contract/nft.js`
