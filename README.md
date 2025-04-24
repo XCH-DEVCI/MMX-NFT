@@ -1,4 +1,4 @@
-# MMX NFT Smart Contract – Basic Mintable NFT with Metadata
+# MMX NFT – Basic Mintable NFT with Metadata
 
 This project provides a complete setup for creating and minting NFTs on the MMX blockchain
 
