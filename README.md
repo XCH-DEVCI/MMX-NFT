@@ -117,7 +117,7 @@ here is an example nft.json
     "name": "Your NFT Name",
     "description": "Your NFT Description",
     "image": "An url link of image",
-    "external_url": "An url link of another content",
+    "external_url": "An url link of related content",
     "attributes": {
       "type": "-"
     }
